@@ -28,7 +28,7 @@ void setup()
   pinMode(RELAY_OPEN_CLOSE_pin, OUTPUT);
   digitalWrite(RELAY_OPEN_CLOSE_pin, LOW);
   pinMode(RF_IN_pin, INPUT);
-  Serial.println("Starting electrical jack !");
+  Serial.println("Starting electrical lock !");
   Serial.println("Ready for commands");
 }
 
@@ -43,7 +43,7 @@ void loop()
     delay(200);
     ht12e.purge();
     if(0x5956 == ht12e.rxGetAddress()) {
-      if(0x59 == ht12e.rxGetData()) {
+      if(0x69 == ht12e.rxGetData()) {
         digitalWrite(RELAY_OPEN_CLOSE_pin, HIGH);
         delay(500);
         digitalWrite(RELAY_POWER1_pin, HIGH);
@@ -51,7 +51,7 @@ void loop()
         Serial.println("Closing...");
         watchDog = WATCHDOG_DELAY;
       }
-      if(0x69 == ht12e.rxGetData()) {
+      if(0xA9 == ht12e.rxGetData()) {
         digitalWrite(RELAY_OPEN_CLOSE_pin, LOW);
         delay(500);
         digitalWrite(RELAY_POWER1_pin, HIGH);
@@ -74,4 +74,3 @@ void loop()
   }
   delay(1);
 }
-
